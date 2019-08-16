@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import cdk = require('@aws-cdk/core');
-import { CdkIssue3689Stack } from '../lib/cdk_issue_3689-stack';
+import { StackA } from '../lib/stackA';
+import { StackB } from '../lib/stackB';
 
 const app = new cdk.App();
-new CdkIssue3689Stack(app, 'CdkIssue3689Stack');
+const stackA = new StackA(app, 'StackA');
+const stackB = new StackB(app, 'StackB', { stackA });
