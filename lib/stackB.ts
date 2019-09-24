@@ -65,11 +65,21 @@ export class StackB extends cdk.Stack {
       targets: [service],
     });
 
-    // This adds cyclic ref
-    props.stackA.defaultListener.addTargetGroups('ECSServiceRule', {
-      targetGroups: [targetGroup],
-      pathPattern: '*',
-      priority: 1,
-    });
+    if(this.node.tryGetContext('useAddTargetGroups')) {
+      // This adds cyclic ref
+      props.stackA.defaultListener.addTargetGroups('ECSServiceRule', {
+        targetGroups: [targetGroup],
+        priority: 1,
+        pathPattern: '*',
+      });
+    } else {
+      // This does not
+      new elbv2.ApplicationListenerRule(this, 'ECSServiceRule', {
+        listener: props.stackA.defaultListener,
+        targetGroups: [targetGroup],
+        priority: 1,
+        pathPattern: '*',
+      });
+    }
   }
 }

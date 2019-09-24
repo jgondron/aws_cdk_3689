@@ -5,5 +5,6 @@ $ cdk --version
 
 ```
 npm install
-npm run build && cdk synth
+npm run build && cdk synth -c useAddTargetGroups=true
 ```
+
